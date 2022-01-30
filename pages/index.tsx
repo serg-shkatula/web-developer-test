@@ -1,50 +1,55 @@
 import type { NextPage } from 'next';
-import Head from 'next/head';
-import { Box, Typography } from '@mui/material';
-
-const classes = {
-  root: {
-    height: '100vh',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  header: {
-    p: 1,
-    backgroundColor: '#eee',
-  },
-  main: {
-    flex: 1,
-    p: 1,
-  },
-  footer: {
-    p: 1,
-    backgroundColor: '#000',
-    color: 'white',
-  },
-};
+import Section from '../components/Section/Section';
+import { SectionColumn } from '../components/Section';
+import TextBlock from '../components/Section/TextBlock';
+import AppFrame from '../components/AppFrame';
 
 const Home: NextPage = () => {
   return (
-    <Box sx={classes.root}>
-      <Head>
-        <title>APPS</title>
-        <meta name="description" content="APPS demo website" />
-        <link rel="icon" href="/favicon.ico" />
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
-      </Head>
-
-      <Box component={'header'} sx={classes.header}>
-        <Typography variant={'overline'}>header</Typography>
-      </Box>
-
-      <Box component={'main'} sx={classes.main}>
-        <Typography variant={'overline'}>main</Typography>
-      </Box>
-
-      <Box component={'footer'} sx={classes.footer}>
-        <Typography variant={'overline'}>footer</Typography>
-      </Box>
-    </Box>
+    <AppFrame>
+      <Section backgroundImage={'/images/lagom.jpg'} fitHeight>
+        <SectionColumn alignItems={'center'}>
+          <TextBlock title={'Lagom'} caption={'APPS unveils new studio'} titleVariant={'h1'} isBackgroundDark />
+        </SectionColumn>
+      </Section>
+      <Section backgroundColor={'#FAFAFA'}>
+        <TextBlock
+          title={'Innovation and experience design agency.'}
+          text={() => (
+            <>
+              Apps is an innovation and experience design agency.
+              <br />
+              We exist to create a better future with you.
+            </>
+          )}
+          textAlign={'center'}
+          buttonLabel={'Products'}
+          buttonHref={'/products'}
+        />
+      </Section>
+      <Section>
+        <SectionColumn
+          xs={6}
+          alignItems={'center'}
+          justifyContent={'center'}
+          sx={{
+            background: `url('/images/mountains.jpg') no-repeat center center`,
+            backgroundSize: 'cover',
+          }}
+          square
+        />
+        <SectionColumn xs={6} alignItems={'center'}>
+          <TextBlock
+            title={'The imaginative application of art and science.'}
+            text={
+              'We architect, design and deliver iconic experiences, services and products that improve people’s lives. '
+            }
+            buttonLabel={'Read Latest'}
+            buttonHref={'/news'}
+          />
+        </SectionColumn>
+      </Section>
+    </AppFrame>
   );
 };
 
