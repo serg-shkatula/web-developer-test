@@ -12,7 +12,10 @@ export default function Document() {
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@200;400;500&display=swap"
         />
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet" />
+        <link
+          href="https://fonts.googleapis.com/icon?family=Material+Icons&family=Material+Icons+Round"
+          rel="stylesheet"
+        />
       </Head>
       <body>
         <Main />

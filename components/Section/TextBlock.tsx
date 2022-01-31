@@ -5,16 +5,19 @@ import Link from 'next/link';
 
 const classes = {
   root: {
-    p: 17,
-    pl: 16,
-    pr: 16,
+    p: { xs: 8, sm: 8, md: 17 },
+    pl: { xs: 2.5, sm: 8, md: 16 },
+    pr: { xs: 2.5, sm: 8, md: 16 },
     maxWidth: 1200,
   },
   title: {
     mb: 1,
   },
   button: {
-    marginTop: 7,
+    marginTop: {
+      xs: 3,
+      md: 7,
+    },
   },
 };
 

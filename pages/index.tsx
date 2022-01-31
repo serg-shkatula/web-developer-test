@@ -29,16 +29,15 @@ const Home: NextPage = () => {
       </Section>
       <Section>
         <SectionColumn
-          xs={6}
-          alignItems={'center'}
-          justifyContent={'center'}
+          xs={12}
+          sm={6}
           sx={{
             background: `url('/images/mountains.jpg') no-repeat center center`,
             backgroundSize: 'cover',
           }}
           square
         />
-        <SectionColumn xs={6} alignItems={'center'}>
+        <SectionColumn xs={12} sm={6} alignItems={'center'}>
           <TextBlock
             title={'The imaginative application of art and science.'}
             text={

@@ -1,18 +1,17 @@
 import React, { useMemo } from 'react';
-import { Box, Button, IconButton, SxProps } from '@mui/material';
+import { Box, Button, ButtonBase, IconButton, SxProps, Typography } from '@mui/material';
 import { SystemStyleObject } from '@mui/system';
 import Link from 'next/link';
 import Image from 'next/image';
 
 const classes: SxProps = {
   root: {
-    color: 'black',
+    rowGap: 1.5,
   },
   vertical: {
     display: 'flex',
     flexDirection: 'column',
-    paddingInlineStart: 3,
-    '& li': {
+    '& a': {
       justifyContent: 'start',
     },
   },
@@ -48,15 +47,16 @@ const menuItems: MenuItem[] = [
 type Props = {
   sx?: SystemStyleObject;
   vertical?: boolean;
+  asBurger?: boolean;
 };
 
-const NavigationMenu: React.FC<Props> = ({ sx = {}, vertical }) => {
+const NavigationMenu: React.FC<Props> = ({ sx = {}, vertical, asBurger }) => {
   const renderedMenuItems = useMemo(
     () =>
       menuItems.map((item) => (
-        <Link key={item.id} href={item.href}>
+        <Link key={item.id} href={item.href} passHref>
           {(!vertical && item.customRenderHorizontal?.(item)) || (
-            <Button component={'li'} color={'inherit'}>
+            <Button component={'a'} color={'inherit'}>
               {item.label}
             </Button>
           )}
@@ -65,10 +65,17 @@ const NavigationMenu: React.FC<Props> = ({ sx = {}, vertical }) => {
     [vertical],
   );
   return (
-    <Box component={'nav'} sx={[classes.root, sx]}>
-      <Box component={'ul'} sx={[{ rowGap: 1.5 }, vertical ? classes.vertical : {}]}>
-        {renderedMenuItems}
-      </Box>
+    <Box component={'nav'} sx={[classes.root, sx, vertical ? classes.vertical : {}]}>
+      {asBurger ? (
+        <ButtonBase>
+          <Typography variant={'caption'} mr={2} fontWeight={400}>
+            MENU
+          </Typography>
+          <img src={'/images/icon_menu.svg'} alt="menu" width={16} height={14} style={{ opacity: 0.54 }} />
+        </ButtonBase>
+      ) : (
+        renderedMenuItems
+      )}
     </Box>
   );
 };

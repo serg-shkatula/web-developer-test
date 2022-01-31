@@ -1,19 +1,46 @@
 import React from 'react';
 import Image from 'next/image';
-import { Box, ButtonBase, Link, Toolbar, Typography } from '@mui/material';
+import { Box, ButtonBase, Link, Typography } from '@mui/material';
 import NavigationMenu from '../NavigationMenu';
 
 const classes = {
   root: {
-    pt: 5,
-    pb: 5,
+    '&': {
+      xs: {},
+      sm: {
+        display: 'flex',
+        alignItems: 'center',
+      },
+    },
+    p: { xs: 3, sm: 6 },
+    pt: { xs: 5, sm: 5 },
+    pb: { xs: 5, sm: 5 },
     borderTop: '1px solid rgba(0,0,0,0.05)',
   },
   nav: {
     color: 'black',
+    ml: {
+      xs: -2,
+      sm: 3,
+    },
+    mt: {
+      xs: 3,
+      sm: 0,
+    },
+    mb: {
+      xs: 5,
+      sm: 0,
+    },
   },
   basketButton: {
     marginLeft: 1,
+  },
+  socialLinks: {
+    opacity: 0.54,
+    marginBottom: { xs: 3, sm: 1 },
+    maxWidth: { xs: 180, sm: 'unset' },
+    display: 'flex',
+    gap: 3,
   },
 };
 
@@ -26,23 +53,23 @@ const socialMediaLinks = [
 
 const Footer: React.FC = () => {
   return (
-    <Toolbar component={'footer'} sx={classes.root} color={'default'} style={{ minHeight: 'auto' }}>
+    <Box component={'footer'} sx={classes.root} color={'default'} style={{ minHeight: 'auto' }}>
       <Image src={'/images/logo.svg'} alt="logo" width={60} height={20} />
       <NavigationMenu sx={classes.nav} vertical />
-      <Box textAlign={'right'} marginLeft={'auto'}>
-        <Box sx={{ opacity: 0.54, marginBottom: 1, display: 'flex', gap: 3 }}>
+      <Box textAlign={{ xs: 'unset', sm: 'right' }} marginLeft={'auto'}>
+        <Box sx={classes.socialLinks}>
           {socialMediaLinks.map((l) => (
             <Link key={l.href} component={ButtonBase} href={l.href} target={'_blank'}>
               <Image src={l.iconUrl} alt={l.alt} width={48} height={48} />
             </Link>
           ))}
         </Box>
-        <Typography>
+        <Typography variant={'caption'}>
           <a href={'#'}>Privacy Policy</a>
           <br />© 2017 Google. All Rights Reserved
         </Typography>
       </Box>
-    </Toolbar>
+    </Box>
   );
 };
 

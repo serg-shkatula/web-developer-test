@@ -2,7 +2,18 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import type { GetServerSideProps, NextPage } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Box, BoxProps, Button, Container, Icon, IconButton, Tooltip, Typography } from '@mui/material';
+import {
+  Box,
+  BoxProps,
+  Button,
+  Container,
+  Icon,
+  IconButton,
+  Tooltip,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from '@mui/material';
 import Section from '../../components/Section';
 import AppFrame from '../../components/AppFrame';
 import products from '../../api/products/index.json';
@@ -33,7 +44,10 @@ const classes = {
   },
   section: {
     flex: 1,
-    paddingTop: 15,
+    paddingTop: {
+      xs: 6,
+      sm: 15,
+    },
     paddingBottom: 10,
   },
   container: {
@@ -45,6 +59,8 @@ const classes = {
     maxWidth: 647,
   },
   table: {
+    width: '100%',
+    overflowX: 'auto',
     m: -0.5,
   },
   title: {
@@ -72,7 +88,12 @@ const Row: React.FC<{ sx?: SystemStyleObject; columnsInfo: Column[]; cells: Reac
 }) => {
   const verticalPadding = tight ? 0.75 : 1.25;
   return (
-    <Box sx={[sx ? sx : {}, { display: 'flex', alignItems: 'center', pt: verticalPadding, pb: verticalPadding }]}>
+    <Box
+      sx={[
+        sx ? sx : {},
+        { minWidth: 480, display: 'flex', alignItems: 'center', pt: verticalPadding, pb: verticalPadding },
+      ]}
+    >
       {columnsInfo.map((cell, i) => (
         <Box key={cell.id} sx={{ width: cell.width, textAlign: cell.align, flex: cell.flex, pl: 0.5, pr: 0.5 }}>
           {['number', 'string'].includes(typeof cells[i]) ? <Typography>{cells[i]}</Typography> : cells[i]}
@@ -91,6 +112,9 @@ const UpdatedStockWarningIcon = () => (
 );
 
 const ShoppingCart: NextPage<ShoppingCartProps> = ({ items: originalItems }) => {
+  const theme = useTheme();
+  const isDownSm = useMediaQuery(theme.breakpoints.down('sm'));
+
   const [editedItems, setEditedItems] = useState<ClientProductItem[]>(() => {
     return originalItems.map((item) => ({
       ...item,
@@ -197,22 +221,31 @@ const ShoppingCart: NextPage<ShoppingCartProps> = ({ items: originalItems }) => 
                       cells={[<B key={'total'}>Total cost</B>, , , <B key={'price'}>{toPrice(totalInfo.total)}</B>]}
                       tight
                     />
-                    <Row
-                      columnsInfo={[...columns.slice(0, -2), { ...columns[3], width: undefined }, columns[4]]}
-                      sx={{ mt: 4 }}
-                      cells={[
-                        ,
-                        ,
-                        ,
-                        // eslint-disable-next-line react/jsx-key
-                        <Link href={'/checkout'} passHref>
-                          <Button variant={'contained'}>Buy Now</Button>
-                        </Link>,
-                      ]}
-                    />
+                    {!isDownSm && (
+                      <Row
+                        columnsInfo={[...columns.slice(0, -2), { ...columns[3], width: undefined }, columns[4]]}
+                        sx={{ mt: 4 }}
+                        cells={[
+                          ,
+                          ,
+                          ,
+                          // eslint-disable-next-line react/jsx-key
+                          <Link href={'/checkout'} passHref>
+                            <Button variant={'contained'}>Buy Now</Button>
+                          </Link>,
+                        ]}
+                      />
+                    )}
                   </>
                 )}
               </Box>
+            )}
+            {isDownSm && (
+              <Link href={'/checkout'} passHref>
+                <Button variant={'contained'} sx={{ mt: 4 }}>
+                  Buy Now
+                </Button>
+              </Link>
             )}
           </Box>
         </Container>

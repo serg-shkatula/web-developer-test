@@ -12,16 +12,6 @@ const theme = createTheme({
     },
   },
   components: {
-    MuiToolbar: {
-      styleOverrides: {
-        root: {
-          '@media (min-width: 600px)': {
-            paddingRight: defaultTheme.spacing(6),
-            paddingLeft: defaultTheme.spacing(6),
-          },
-        },
-      },
-    },
     MuiInputBase: {
       styleOverrides: {
         inputSizeSmall: {
@@ -105,7 +95,7 @@ const AppFrame: React.FC<Props> = ({ children, title, description }) => {
         </Head>
 
         <Box sx={classes.container}>
-          <Header />
+          <Header sx={{ zIndex: 1 }} />
           <Box component={'main'} sx={classes.main}>
             {children}
             <Footer />
