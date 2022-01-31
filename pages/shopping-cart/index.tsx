@@ -11,6 +11,8 @@ import Quantity from '../../components/Quantity';
 import { calculateCost, createProductItemRemover, createProductItemUpdater, toPrice } from '../../functions';
 import { ProductItem, ClientProductItem } from '../../types';
 
+const B: React.FC = ({ children }) => <Typography sx={{ fontWeight: 500 }}>{children}</Typography>;
+
 const VAT_PERCENT = 19;
 
 type Column = {
@@ -31,7 +33,7 @@ const classes = {
   },
   section: {
     flex: 1,
-    paddingTop: 10,
+    paddingTop: 15,
     paddingBottom: 10,
   },
   container: {
@@ -55,23 +57,22 @@ const classes = {
 const columns: Column[] = [
   { id: 'product', label: 'Product', flex: 1 },
   { id: 'price', label: 'Price', width: '10%', align: 'right' },
-  { id: 'quantity', label: 'Quantity', width: '30%', align: 'center' },
+  { id: 'quantity', label: 'Quantity', width: '35%', align: 'center' },
   { id: 'cost', label: 'Cost', width: '12%', align: 'right' },
-  { id: 'action', width: '8%', align: 'right' },
+  { id: 'action', width: '10%', align: 'right' },
 ];
-const header = columns.map((c) => (
-  <Typography key={c.id} sx={{ fontWeight: 500 }}>
-    {c.label}
-  </Typography>
-));
 
-const Row: React.FC<{ sx?: SystemStyleObject; columnsInfo: Column[]; cells: React.ReactNode[] }> = ({
+const header = columns.map((c) => <B key={c.id}>{c.label}</B>);
+
+const Row: React.FC<{ sx?: SystemStyleObject; columnsInfo: Column[]; cells: React.ReactNode[]; tight?: boolean }> = ({
   sx,
   columnsInfo,
   cells,
+  tight,
 }) => {
+  const verticalPadding = tight ? 0.75 : 1.25;
   return (
-    <Box sx={[sx ? sx : {}, { display: 'flex', alignItems: 'center', pt: 1, pb: 1 }]}>
+    <Box sx={[sx ? sx : {}, { display: 'flex', alignItems: 'center', pt: verticalPadding, pb: verticalPadding }]}>
       {columnsInfo.map((cell, i) => (
         <Box key={cell.id} sx={{ width: cell.width, textAlign: cell.align, flex: cell.flex, pl: 0.5, pr: 0.5 }}>
           {['number', 'string'].includes(typeof cells[i]) ? <Typography>{cells[i]}</Typography> : cells[i]}
@@ -167,7 +168,7 @@ const ShoppingCart: NextPage<ShoppingCartProps> = ({ items: originalItems }) => 
       <Section sx={classes.section}>
         <Container sx={classes.container}>
           <Box sx={classes.content}>
-            <Box mb={4}>
+            <Box mb={6}>
               <Typography variant={'h3'} sx={classes.title}>
                 Your Basket
               </Typography>
@@ -184,12 +185,21 @@ const ShoppingCart: NextPage<ShoppingCartProps> = ({ items: originalItems }) => 
                 {itemsAsRows}
                 {!!totalInfo.itemsTotal && (
                   <>
-                    <Row columnsInfo={columns} cells={['Subtotal', , , toPrice(totalInfo.subTotal)]} sx={{ mt: 2 }} />
-                    <Row columnsInfo={columns} cells={[`VAT at ${VAT_PERCENT}%`, , , toPrice(totalInfo.vat)]} />
-                    <Row columnsInfo={columns} cells={['Total cost', , , toPrice(totalInfo.total)]} />
+                    <Row
+                      columnsInfo={columns}
+                      cells={['Subtotal', , , toPrice(totalInfo.subTotal)]}
+                      sx={{ mt: 3 }}
+                      tight
+                    />
+                    <Row columnsInfo={columns} cells={[`VAT at ${VAT_PERCENT}%`, , , toPrice(totalInfo.vat)]} tight />
+                    <Row
+                      columnsInfo={columns}
+                      cells={[<B key={'total'}>Total cost</B>, , , <B key={'price'}>{toPrice(totalInfo.total)}</B>]}
+                      tight
+                    />
                     <Row
                       columnsInfo={[...columns.slice(0, -2), { ...columns[3], width: undefined }, columns[4]]}
-                      sx={{ mt: 2 }}
+                      sx={{ mt: 4 }}
                       cells={[
                         ,
                         ,

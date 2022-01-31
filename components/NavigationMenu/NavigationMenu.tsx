@@ -11,7 +11,7 @@ const classes: SxProps = {
   vertical: {
     display: 'flex',
     flexDirection: 'column',
-    paddingInlineStart: 4,
+    paddingInlineStart: 3,
     '& li': {
       justifyContent: 'start',
     },
@@ -66,7 +66,7 @@ const NavigationMenu: React.FC<Props> = ({ sx = {}, vertical }) => {
   );
   return (
     <Box component={'nav'} sx={[classes.root, sx]}>
-      <Box component={'ul'} sx={[{ rowGap: 1 }, vertical ? classes.vertical : {}]}>
+      <Box component={'ul'} sx={[{ rowGap: 1.5 }, vertical ? classes.vertical : {}]}>
         {renderedMenuItems}
       </Box>
     </Box>

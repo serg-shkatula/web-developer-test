@@ -7,6 +7,8 @@ import Image from 'next/image';
 const classes = {
   root: {
     boxShadow: '0 2px 8px 0 rgba(0,0,0,0.25)',
+    pt: 3,
+    pb: 3,
   },
   nav: {
     marginLeft: 'auto',
